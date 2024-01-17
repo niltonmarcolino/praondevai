@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encaminhamento de Pedidos</title>
+    <style>
+        body {
+            background-color: #222; /* Fundo escuro */
+            color: #fff; /* Texto em branco */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #3498db; /* Azul claro */
+        }
+
+        form {
+            background-color: #333; /* Fundo escuro mais claro */
+            padding: 10px; /* Reduzindo o preenchimento */
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        textarea {
+            width: calc(100% - 20px); /* Ajustando a largura */
+            margin-bottom: 10px;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #555; /* Borda mais escura */
+            border-radius: 2px; /* Reduzindo a espessura da borda */
+            color: #222; /* Texto escuro */
+            background-color: #ddd; /* Fundo cinza claro */
+        }
+
+        button {
+            background-color: #2ecc71; /* Verde */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60; /* Verde mais escuro ao passar o mouse */
+        }
+
+        .resposta {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #3498db; /* Azul claro */
+        }
+    </style>
+</head>
+<body>
+    <h1>PARA ONDE DEVO ENCAMINHAR O DOCUMENTO?</h1>
+
+    <form id="pedidoForm" onsubmit="encaminharPedido(); return false;">
+        <label for="pedido">PALAVRA-CHAVE:</label>
+        <textarea id="pedido" name="pedido" rows="4" cols="50"></textarea>
+        <button type="submit">CONSULTA</button>
+    </form>
+
+    <div id="resposta" class="resposta"></div>
+
+    <script>
+        function identificarSetor(texto) {
+            texto = texto.toLowerCase();
+
+            if (texto.includes('roçagem') || texto.includes('limpeza') || texto.includes('manutenção') || texto.includes('buraco') || texto.includes('hidrojato') || texto.includes('conserto de buraco') || texto.includes('manutenção asfáltica')) {
+                return 'SMLMU';
+            } else if (texto.includes('restaurante popular') || texto.includes('situação de rua') || texto.includes('morador de rua')) {
+                return 'SEMAS/GAB';
+            } else if (texto.includes('contentor de lixo') || texto.includes('pev') || texto.includes('caixa coletora de vidro') || texto.includes('retirada de lixo') || texto.includes('coleta de lixo') || texto.includes('papa-entulho')) {
+                return 'SMMADS/GAB';
+            } else if (texto.includes('pavimentação') || texto.includes('drenagem')) {
+                return 'SMTI/GAB';
+            } else if (texto.includes('placa de sinalização') || texto.includes('horário de ônibus') || texto.includes('faixa de pedestre') || texto.includes('abrigo de passageiros') || texto.includes('placa de parada de ônibus') || texto.includes('semáforo')) {
+                return 'SMTI/GAB/STM';
+            } else if (texto.includes('poda de árvore') || texto.includes('poda')) {
+                return 'Floram';
+            } else if (texto.includes('iluminação pública') || texto.includes('refletor') || texto.includes('ligação de energia')) {
+                return 'GAPRE/COSIP';
+            } else if (texto.includes('emendas impositivas')) {
+                return 'SMCC/EMENDAS/IMPOSITIVAS';
+            } else if (texto.includes('reforma escolar') || texto.includes('escola') || texto.includes('creche') || texto.includes('neim')) {
+                return 'SME/GAB';
+            } else if (texto.includes('centro de saúde') || texto.includes('posto de saúde') || texto.includes('vigilância sanitária')) {
+                return 'SMS/GAB/ASSUR';
+            } else if (texto.includes('fiscalização ambiental') || texto.includes('câmera de monitoramento')) {
+                return 'SMSOP/GAB';
+            } else if (texto.includes('guarda municipal') || texto.includes('segurança') || texto.includes('apoio da guarda')) {
+                return 'SMSOP/GMF';
+            } else if (texto.includes('transporte') || texto.includes('tendas') || texto.includes('banheiros químicos') || texto.includes('som') || texto.includes('palco') || texto.includes('brinquedos infláveis')) {
+                return 'SMTCE/GAB';
+            } else {
+                return 'Não encontrado';
+            }
+        }
+
+        function exibirResposta(resposta) {
+            var respostaDiv = document.getElementById("resposta");
+            respostaDiv.innerHTML = "Resposta: " + resposta;
+        }
+
+        function encaminharPedido() {
+            // Obter o texto do pedido do usuário
+            var pedidoTexto = document.getElementById("pedido").value;
+
+            // Identificar o setor
+            var setor = identificarSetor(pedidoTexto);
+
+            // Exibir a resposta abaixo do ícone "Consulta"
+            exibirResposta(setor);
+        }
+    </script>
+</body>
+</html>
